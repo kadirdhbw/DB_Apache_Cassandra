@@ -165,5 +165,6 @@ cqlsh
 11. Show the data in the table
 
 ```sql
-SELECT * FROM tracking.user_activity;
+SELECT * FROM analytics.user_activity;
+SELECT * FROM analytics.page_views;
 ```
