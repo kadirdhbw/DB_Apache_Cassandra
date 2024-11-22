@@ -1,9 +1,12 @@
 // Function to increment page visits
 function incrementPageView() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('id') || '';
+    let page = window.location.pathname; // Use `let` to allow reassignment
 
-    const page = window.location.pathname + productId;
+    if (page === '/product-details.html') {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id') || 'unknown';
+        page = '/product-details/' + productId + '.html'; // Reassign `page`
+    }
 
     fetch('http://localhost:3000/page-view', {
     method: 'POST',
