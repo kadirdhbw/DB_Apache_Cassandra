@@ -97,25 +97,60 @@ cqlsh
 7. Create Keyspace and Table in Cassandra
 
 ```sql
-CREATE KEYSPACE tracking
+-- Create Keyspace
+CREATE KEYSPACE analytics
 WITH replication = {
   'class': 'NetworkTopologyStrategy',
   'datacenter1': 2
 };
 
-CREATE TABLE tracking.user_activity (
+-- Single user activity tracking
+CREATE TABLE analytics.user_activity (
     user_id UUID,
     session_id UUID,
     page_visited TEXT,
     visit_time TIMESTAMP,
     PRIMARY KEY (user_id, session_id)
 );
+
+-- Save user session logs
+CREATE TABLE analytics.session_logs (
+    session_id UUID,
+    user_id UUID,
+    start_time TIMESTAMP,
+    end_time TIMESTAMP,
+    pages_visited LIST<TEXT>,
+    actions JSON,
+    PRIMARY KEY (user_id, session_id)
+);
+
+-- Statistics of page views
+CREATE TABLE analytics.page_views (
+    page TEXT PRIMARY KEY,
+    total_views COUNTER
+);
+
+-- Save aggregated data of user activity
+CREATE TABLE analytics.user_summary (
+    user_id UUID PRIMARY KEY,
+    total_sessions INT,
+    total_time_spent DOUBLE,
+    total_actions INT
+);
+
+-- Analyze user behavior
+CREATE TABLE analytics.conversion_rates (
+    page TEXT PRIMARY KEY,
+    conversions INT,
+    visits INT
+);
+
 ```
 
 8. Start the Node.js server
 
 ```bash
-node server.js
+node index.js
 ```
 
 9. Open the 'index.html' file in the browser

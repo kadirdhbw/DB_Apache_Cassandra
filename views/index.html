@@ -15,7 +15,7 @@
 
     // Function for tracking page visits
     function trackPageVisit() {
-      const userId = localStorage.getItem('user_id') || uuid(); //Math.floor(Math.random() * 1000);
+      const userId = localStorage.getItem('user_id') || uuid();
       localStorage.setItem('user_id', userId);
 
       const data = {
@@ -29,7 +29,10 @@
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          user_id: userId,
+          page_visited: '/index.html'
+        })
       }).then(response => {
         if (response.ok) {
           console.log('Page visit tracked successfully');
@@ -44,6 +47,11 @@
   </script>
 </head>
 <body>
-  <h1>Welcome to the User Activity Tracking System</h1>
+  <h1>Welcome to Our E-Commerce Platform</h1>
+  <ul>
+    <li><a href="products.html">View Products</a></li>
+    <li><a href="cart.html">Go to Cart</a></li>
+    <li><a href="orders.html">View Orders</a></li>
+  </ul>
 </body>
 </html>

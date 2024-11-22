@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orders</title>
+  <script>
+    function trackPageVisit() {
+      const userId = localStorage.getItem('user_id');
+      fetch('http://localhost:3000/track', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          page_visited: '/orders.html'
+        })
+      });
+    }
+
+    window.onload = trackPageVisit;
+  </script>
+</head>
+<body>
+  <h1>Your Orders</h1>
+  <p>Order details go here...</p>
+</body>
+</html>

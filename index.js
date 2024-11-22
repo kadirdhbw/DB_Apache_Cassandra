@@ -4,6 +4,7 @@ const cassandra = require('cassandra-driver');
 const { v4: uuidv4 } = require('uuid');
 const cors = require('cors');
 const exp = require('constants');
+const path = require('path');
 
 const app = express();
 app.use(express.json());
@@ -14,17 +15,19 @@ app.use(cors());
 const client = new cassandra.Client({ 
   contactPoints: ['127.0.0.1'], 
   localDataCenter: 'datacenter1', 
-  keyspace: 'tracking' 
+  keyspace: 'analytics' 
 });
+
+// Provide html files
+app.use(express.static(path.join(__dirname, 'views')));
 
 // API endpoint to record user activity
 app.post('/track', async (req, res) => {
   const { user_id, page_visited } = req.body;
   const session_id = uuidv4();
-  const visit_time = new Date();
 
-  const query = 'INSERT INTO user_activity (user_id, session_id, page_visited, visit_time) VALUES (?, ?, ?, ?)';
-  const params = [user_id, session_id, page_visited, visit_time];
+  const query = 'INSERT INTO user_activity (user_id, session_id, page_visited, visit_time) VALUES (?, ?, ?, toTimestamp(now()))';
+  const params = [user_id, session_id, page_visited];
 
   try {
     await client.execute(query, params, { prepare: true });
