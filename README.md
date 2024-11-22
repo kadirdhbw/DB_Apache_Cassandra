@@ -153,7 +153,7 @@ CREATE TABLE analytics.conversion_rates (
 node index.js
 ```
 
-9. Open the 'index.html' file in the browser
+9. Open the browser and go to `http://localhost:3000/`
 
 10. Go again into one of the Cassandra containers and start the CQL shell
 

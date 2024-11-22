@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="../tracking.js"></script>
+  <link rel="icon" href="data:," />
+  <script src="tracking.js"></script>
   <title>User Activity Tracking</title>
-  <!-- <script>
+  <script>
     // Define uuidv4 function to generate a unique user id
     function uuid() {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -21,6 +22,7 @@
 
       const data = {
         user_id: userId,
+        session_id: localStorage.getItem('session_id') || uuid(),
         page_visited: window.location.pathname
       };
 
@@ -30,10 +32,7 @@
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          user_id: userId,
-          page_visited: '/index.html'
-        })
+        body: JSON.stringify(data)
       }).then(response => {
         if (response.ok) {
           console.log('Page visit tracked successfully');
@@ -45,7 +44,7 @@
 
     // Track by laoding page
     window.onload = trackPageVisit;
-  </script> -->
+  </script>
 </head>
 <body>
   <h1>Welcome to Our E-Commerce Platform</h1>

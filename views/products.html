@@ -3,25 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="../tracking.js"></script>  
+  <link rel="icon" href="data:," />
+  <!-- <script src="tracking.js"></script>   -->
   <title>Products</title>
-  <!-- <script>
-    function trackPageVisit() {
-      const userId = localStorage.getItem('user_id');
-      fetch('http://localhost:3000/track', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          user_id: userId,
-          page_visited: '/products.html'
-        })
+  <script>
+    // Define uuidv4 function to generate a unique user id
+    function uuid() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
       });
     }
 
-    function trackProductClick(productId) {
-      const userId = localStorage.getItem('user_id');
+    function trackPageVisit() {
+        // Ensure user_id and session_id are available in localStorage
+        let userId = localStorage.getItem('user_id');
+        let sessionId = localStorage.getItem('session_id');
+        if (!userId) {
+            userId = uuid();
+            localStorage.setItem('user_id', userId);
+        }
+        if (!sessionId) {
+            sessionId = uuid();
+            localStorage.setItem('session_id', sessionId);
+        }
       fetch('http://localhost:3000/track', {
         method: 'POST',
         headers: {
@@ -29,13 +34,20 @@
         },
         body: JSON.stringify({
           user_id: userId,
-          page_visited: `/products/${productId}`
+          session_id: sessionId,
+          page_visited: '/products.html'
         })
-      });
+      }).then(response => {
+        if (response.ok) {
+          console.log('Products visit tracked successfully');
+        } else {
+          console.error('Error tracking products visit');
+        }
+      }).catch(error => console.error('Error:', error));
     }
 
     window.onload = trackPageVisit;
-  </script> -->
+  </script>
 </head>
 <body>
   <h1>Products</h1>
