@@ -120,7 +120,7 @@ CREATE TABLE analytics.session_logs (
     start_time TIMESTAMP,
     end_time TIMESTAMP,
     pages_visited LIST<TEXT>,
-    actions JSON,
+    actions TEXT,
     PRIMARY KEY (user_id, session_id)
 );
 
